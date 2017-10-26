@@ -1,0 +1,73 @@
+import java.io.*;
+
+public class Main {
+    public static void combiner(int[] articles, int taille_carton){
+        int somme_totale=taille_carton;
+        int i;
+        String combinaison="";
+        while(somme(articles)>0)
+        {
+            i=0;
+            System.out.println(somme_totale);
+            while(i<articles.length)
+            {
+                if(((somme_totale-articles[i]) >= 0) && (articles[i]!=0)){
+                    somme_totale -= articles[i];
+                    combinaison+=articles[i];
+                    articles[i]=0;
+                }
+                i++;
+            }
+            somme_totale=taille_carton;
+            combinaison+="/";
+        }
+        System.out.print(combinaison);
+    }
+    public static int somme(int [] articles){
+        int somme=0;
+        for (int i = 0; i < articles.length; i++) {
+            somme+=articles[i];
+        }
+        return somme;
+    }
+
+    public static void main(String[] args) {
+        
+        String entree;
+        int nombre_articles,taille_carton,aux;
+        int [] articles;
+        try {
+            DataInput in = new DataInputStream(System.in);
+            System.out.println("donner la taille du carton");
+            entree = in.readLine();
+            taille_carton = Integer.parseInt(entree);
+            System.out.println("donner la chaine des articles");
+            entree = in.readLine();
+            nombre_articles = entree.length();
+            articles= new int [nombre_articles];
+            for (int i = 0; i < nombre_articles; i++) {
+                articles[i] = Integer.parseInt(entree.substring(i, i+1));
+            }
+            for (int i = 0; i < articles.length-1; i++) {
+                for (int j = i+1; j < articles.length; j++) {
+                    if (articles[i] < articles[j])
+                    {
+                        aux = articles[i];
+                        articles[i]= articles[j];
+                        articles[j]=aux;
+                    }
+                }
+            }
+            System.out.println("les articles en ordre ");
+            for (int i = 0; i < articles.length; i++) {
+                System.out.print(articles[i]+"/");
+            }
+            System.out.println("\n");
+            combiner(articles, taille_carton);
+        }
+        catch (IOException e) {
+           
+            e.printStackTrace();
+        }
+    }
+}
